@@ -1,4 +1,4 @@
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import Banner from "../components/Banner";
 import TestimonialSection from "../components/TestimonialSection";
 import CTABanner from "../components/CTABanner";
@@ -9,12 +9,14 @@ import DiverseLearningPathSection from "../components/DiverseLearningPathSection
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   useEffect(() => {
-        document.title = "ByteSpace New";
-      }, []);
+    document.title = "ByteSpace New";
+  }, []);
 
   return (
     <div className="w-full bg-white text-gray-900 font-sans selection:bg-[#d2f800] selection:text-black">
-      <section className="relative overflow-hidden bg-[#003BE2] text-white">
+      {/* HERO SECTION */}
+      <section className="relative overflow-hidden bg-[#003BE2] text-white pt-20 pb-0">
+        
         {/* Grid Background Overlay */}
         <div
           className="absolute inset-0 opacity-15 pointer-events-none z-0"
@@ -25,16 +27,16 @@ export default function Home() {
           }}
         />
 
-        {/* 3D Ornaments Background Overlay */}
+        {/* 3D Ornaments Background Overlay - Fixed with object-fill to prevent horizontal clipping */}
         <img
           src="logos/3dornament.png"
           alt=""
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0 opacity-90"
+          className="absolute inset-0 w-full h-full object-fill pointer-events-none z-0"
         />
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-4xl mx-auto text-center px-6 pt-28 pb-8">
-          <h1 className="font-ag-headline text-[72px] text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight">
+        <div className="relative z-10 max-w-4xl mx-auto text-center px-6 pt-12 pb-4">
+          <h1 className="font-ag-headline text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight">
             Get Access to Hundreds
             <br />
             Courses Available
@@ -81,7 +83,7 @@ export default function Home() {
         </div>
 
         {/* Hero Interactive Visuals */}
-        <div className="relative z-10 max-w-5xl mx-auto h-[380px] sm:h-[460px] mt-4">
+        <div className="relative z-10 max-w-5xl mx-auto w-full h-[380px] sm:h-[460px] mt-4">
           {/* Big Lime Backdrop Arch */}
           <div className="absolute bottom-[-50%] left-1/2 -translate-x-1/2 w-[550px] sm:w-[700px] h-[550px] sm:h-[700px] bg-[#d2f800] rounded-full" />
 
@@ -96,7 +98,6 @@ export default function Home() {
 
           {/* Floating UI/UX Card Left */}
           <div className="hidden sm:block absolute left-12 top-16 z-20 bg-white text-gray-900 rounded-2xl px-5 py-3.5 shadow-xl">
-      
             <img src="logos/uiuxcard.png" alt="" />
           </div>
 
@@ -112,28 +113,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 2: LOGO BANNER                                   */}
+      {/* SECTION 2: LOGO BANNER */}
       <section className="bg-[#F8F9FB] border-y border-gray-100 py-7 px-6">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-center sm:justify-between gap-8 text-gray-400 font-bold text-lg opacity-80">
           <Banner />
         </div>
       </section>
 
-      {/* SECTION 3: COURSES DISCOVERY                             */}
+      {/* SECTION 3: COURSES DISCOVERY */}
       <CoursesDiscovery />
 
-      {/* SECTION 4: DIVERSE LEARNING PATHS                        */}
+      {/* SECTION 4: DIVERSE LEARNING PATHS */}
       <DiverseLearningPathSection />
 
-      {/* SECTION 5: FEATURES & CREATOR MANAGEMENT                 */}
+      {/* SECTION 5: FEATURES & CREATOR MANAGEMENT */}
       <FeaturesSection />
 
-      {/* SECTION 6: CREATOR BANNER & TESTIMONIALS                 */}
-
-      {/* Creator Blue Grid CTA Banner */}
+      {/* SECTION 6: CREATOR BANNER & TESTIMONIALS */}
       <CTABanner />
-
-      {/* Testimonials Section */}
       <TestimonialSection />
     </div>
   );
