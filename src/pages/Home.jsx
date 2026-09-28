@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
 // Sample Course Data
 const coursesData = [
@@ -126,8 +126,7 @@ export default function Home({ setCurrentPage }) {
   const filteredCourses = useMemo(() => {
     return coursesData.filter((course) => {
       const matchCat = activeCategory === 'Featured' || course.category === activeCategory;
-      const matchQuery = course.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         course.category.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchQuery = course.title.toLowerCase().includes(searchQuery.toLowerCase()) || course.category.toLowerCase().includes(searchQuery.toLowerCase());
       return matchCat && matchQuery;
     });
   }, [activeCategory, searchQuery]);
@@ -150,37 +149,6 @@ export default function Home({ setCurrentPage }) {
         />
 
         {/* Top Navigation */}
-        <nav className="relative z-20 max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentPage('home')}>
-            <div className="w-7 h-7 bg-[#d2f800] rounded-sm flex items-center justify-center font-black text-black text-xs">
-              b
-            </div>
-            <span className="text-xl font-extrabold tracking-tight">ByteSpace</span>
-          </div>
-
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium">
-            <button onClick={() => setCurrentPage('home')} className="hover:text-[#d2f800] transition-colors">Home</button>
-            <a href="#courses" className="hover:text-[#d2f800] transition-colors">Courses</a>
-            <a href="#creators" className="hover:text-[#d2f800] transition-colors">Creators</a>
-          </div>
-
-          <div className="flex items-center gap-4 text-sm font-semibold">
-            <button onClick={() => setCurrentPage('login')} className="hover:text-[#d2f800] transition-colors">
-              Sign In
-            </button>
-            <button 
-              onClick={() => setCurrentPage('register')}
-              className="bg-[#d2f800] hover:bg-[#c2e800] text-black px-5 py-2 rounded-full transition-all"
-            >
-              Join Us
-            </button>
-            <button className="p-1 hover:text-[#d2f800]">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
-            </button>
-          </div>
-        </nav>
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-4xl mx-auto text-center px-6 pt-10 pb-8">

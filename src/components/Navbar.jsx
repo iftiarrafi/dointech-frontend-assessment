@@ -1,53 +1,76 @@
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../features/auth/authSlice';
 
-export default function Navbar({ currentPage, setCurrentPage }) {
+export default function Navbar() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // Hide the Navbar on Login and Register pages
-  if (currentPage === 'login' || currentPage === 'register') {
-    return null;
-  }
+  // Smooth scroll handler
+  const handleScrollTo = (sectionId) => {
+    if (location.pathname !== '/') {
+      // If on another route (e.g. /login), navigate home first then scroll
+      navigate('/');
+      setTimeout(() => {
+        if (sectionId === 'home') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          const element = document.getElementById(sectionId);
+          element?.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      // If already on homepage
+      if (sectionId === 'home') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const element = document.getElementById(sectionId);
+        element?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
-    <nav className="w-full bg-[#0047FF] text-white px-8 py-5 flex items-center justify-between border-b border-blue-500/30">
+    <nav className="sticky top-0 z-50 w-full bg-[#0047FF] text-white px-8 py-5 flex items-center justify-between border-b border-blue-500/30 backdrop-blur-md bg-opacity-95">
       
-      {/* Left: ByteSpace Logo */}
-      <div 
-        className="flex items-center gap-2.5 cursor-pointer"
-        onClick={() => setCurrentPage('home')}
+      {/* Logo */}
+      <button 
+        onClick={() => handleScrollTo('home')} 
+        className="flex items-center gap-2.5 focus:outline-none"
       >
-        <svg 
-          className="w-7 h-6 text-[#d2f800]" 
-          viewBox="0 0 38 32" 
-          fill="currentColor"
-        >
-          <path d="M10 2C4.5 2 0 6.5 0 12c0 8 10 18 10 18s2.5-7 2.5-12C12.5 6.5 17 2 22.5 2H10z" />
-          <path d="M16 12c0 6.5 5 12 11.5 12C33 24 38 19.5 38 14c0-6-7.5-12-14-12H16v10z" />
-        </svg>
-        <span className="text-xl font-black tracking-tight text-white">
+        <div className="w-7 h-7 bg-[#d2f800] rounded-sm flex items-center justify-center font-black text-black text-xs">
+          b
+        </div>
+        <span className="text-xl font-extrabold tracking-tight text-white">
           ByteSpace
         </span>
-      </div>
+      </button>
 
-      {/* Center Navigation Links */}
+      {/* Navigation Links */}
       <div className="hidden md:flex items-center gap-8 text-xs font-medium text-gray-100">
         <button 
-          onClick={() => setCurrentPage('home')} 
-          className={`hover:text-white transition-colors ${currentPage === 'home' ? 'text-white font-bold' : ''}`}
+          onClick={() => handleScrollTo('home')} 
+          className="hover:text-[#d2f800] transition-colors focus:outline-none"
         >
           Home
         </button>
-        <button className="hover:text-white transition-colors">
+        <button 
+          onClick={() => handleScrollTo('courses')} 
+          className="hover:text-[#d2f800] transition-colors focus:outline-none"
+        >
           Courses
         </button>
-        <button className="hover:text-white transition-colors">
+        <button 
+          onClick={() => handleScrollTo('creators')} 
+          className="hover:text-[#d2f800] transition-colors focus:outline-none"
+        >
           Creators
         </button>
       </div>
 
-      {/* Right: Auth Actions & Shopping Bag */}
+      {/* Auth Actions */}
       <div className="flex items-center gap-6 text-xs">
         {isAuthenticated ? (
           <div className="flex items-center gap-4">
@@ -55,7 +78,10 @@ export default function Navbar({ currentPage, setCurrentPage }) {
               Welcome, <strong className="text-white">{user?.name || user?.email}</strong>
             </span>
             <button 
-              onClick={() => dispatch(logout())}
+              onClick={() => {
+                dispatch(logout());
+                navigate('/login');
+              }}
               className="bg-red-500 hover:bg-red-600 text-white font-medium px-3 py-1.5 rounded transition-colors"
             >
               Logout
@@ -63,37 +89,17 @@ export default function Navbar({ currentPage, setCurrentPage }) {
           </div>
         ) : (
           <div className="flex items-center gap-4 text-gray-100 font-medium">
-            <button 
-              onClick={() => setCurrentPage('login')} 
-              className="hover:text-white transition-colors"
-            >
+            <Link to="/login" className="hover:text-white transition-colors">
               Sign In
-            </button>
-            <button 
-              onClick={() => setCurrentPage('register')} 
-              className="hover:text-white transition-colors"
+            </Link>
+            <Link 
+              to="/register" 
+              className="bg-[#d2f800] hover:bg-[#c2e800] text-black font-semibold px-4 py-2 rounded-full transition-all"
             >
               Join Us
-            </button>
+            </Link>
           </div>
         )}
-
-        {/* Shopping Bag Icon */}
-        <button 
-          className="text-gray-100 hover:text-white transition-colors" 
-          aria-label="Shopping Cart"
-        >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            strokeWidth={1.8} 
-            stroke="currentColor" 
-            className="w-5 h-5"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.25 10.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm7.5 0a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
-          </svg>
-        </button>
       </div>
 
     </nav>
