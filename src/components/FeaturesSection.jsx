@@ -37,7 +37,7 @@ export default function FeaturesSection() {
           {/* Graphic 1 */}
           <div className="relative max-w-md mx-auto lg:max-w-none w-full flex justify-center">
             <img
-              src="public\logos\Frame 11.png"
+              src="/logos/Frame11.png"
               alt="Professional Growth Feature"
               className="w-full h-auto object-contain max-h-[480px]"
             />
@@ -49,7 +49,7 @@ export default function FeaturesSection() {
           {/* Graphic 2 */}
           <div className="relative order-2 lg:order-1 max-w-md mx-auto lg:max-w-none w-full flex justify-center">
             <img
-              src="public\logos\Frame 12.png"
+              src="/logos/Frame12.png"
               alt="Create & Manage Courses"
               className="w-full h-auto object-contain max-h-[480px]"
             />
