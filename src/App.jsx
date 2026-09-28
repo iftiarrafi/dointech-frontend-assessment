@@ -11,8 +11,8 @@ export default function App() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-
-      {!isAuthPage && <Navbar />}
+      {/* Always render Navbar so it displays the logo on auth pages */}
+      <Navbar />
 
       <main className="flex-1">
         <Routes>

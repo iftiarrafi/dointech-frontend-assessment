@@ -2,3 +2,12 @@
 html {
   scroll-behavior: smooth;
 }
+
+@font-face {
+  font-family: 'AG Headline';
+  src: url('/fonts/AG-Headline.woff2') format('woff2'),
+       url('/fonts/AG-Headline.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

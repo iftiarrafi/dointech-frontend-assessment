@@ -1,0 +1,88 @@
+const coursesData2 = [
+  {
+    id: 1,
+    title: "Learn Figma from Basic",
+    category: "UI/UX Design",
+    author: "purepearl studio",
+    level: "Beginner",
+    rating: "4.5",
+    price: "$25",
+    lessons: "17 Lessons",
+    time: "2 hours 16 mins",
+    comments: "59 Comments",
+    image:
+      "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&w=600&q=80",
+  },
+  {
+    id: 2,
+    title: "Build Digital Asset",
+    category: "Creative Marketing",
+    author: "purepearl studio",
+    level: "Beginner",
+    rating: "4.5",
+    price: "$25",
+    lessons: "17 Lessons",
+    time: "2 hours 16 mins",
+    comments: "59 Comments",
+    image:
+      "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=600&q=80",
+  },
+  {
+    id: 3,
+    title: "the Power of Big Data",
+    category: "Data Science",
+    author: "purepearl studio",
+    level: "Beginner",
+    rating: "4.5",
+    price: "$25",
+    lessons: "17 Lessons",
+    time: "2 hours 16 mins",
+    comments: "59 Comments",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
+  },
+  {
+    id: 4,
+    title: "Balancing Productivity an...",
+    category: "Productivity",
+    author: "purepearl studio",
+    level: "Beginner",
+    rating: "4.5",
+    price: "$25",
+    lessons: "17 Lessons",
+    time: "2 hours 16 mins",
+    comments: "59 Comments",
+    image:
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80",
+  },
+  {
+    id: 5,
+    title: "Mastering Money Manage...",
+    category: "Business",
+    author: "purepearl studio",
+    level: "Beginner",
+    rating: "4.5",
+    price: "$25",
+    lessons: "17 Lessons",
+    time: "2 hours 16 mins",
+    comments: "59 Comments",
+    image:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80",
+  },
+  {
+    id: 6,
+    title: "From Idea to Startup Succ...",
+    category: "Freelance & Entrepreneurship",
+    author: "purepearl studio",
+    level: "Beginner",
+    rating: "4.5",
+    price: "$25",
+    lessons: "17 Lessons",
+    time: "2 hours 16 mins",
+    comments: "59 Comments",
+    image:
+      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=80",
+  },
+];
+
+export default coursesData2
