@@ -27,7 +27,7 @@ export default function Home() {
 
         {/* 3D Ornaments Background Overlay */}
         <img
-          src="public\logos\3d ornament.png"
+          src="logos/3dornament.png"
           alt=""
           className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0 opacity-90"
         />
@@ -97,17 +97,17 @@ export default function Home() {
           {/* Floating UI/UX Card Left */}
           <div className="hidden sm:block absolute left-12 top-16 z-20 bg-white text-gray-900 rounded-2xl px-5 py-3.5 shadow-xl">
       
-            <img src="public\logos\uiuxcard.png" alt="" />
+            <img src="logos/uiuxcard.png" alt="" />
           </div>
 
           {/* Floating Progress Card Right */}
           <div className="absolute right-8 top-16 z-20 bg-white text-gray-900 rounded-2xl p-4 shadow-xl w-48 sm:w-56">
-            <img src="public\logos\ProgressCard.png" alt="" />
+            <img src="logos/ProgressCard.png" alt="" />
           </div>
 
           {/* Floating Happy Students Bottom Left */}
           <div className="absolute left-3 sm:left-1 bottom-6 z-20">
-            <img src="/Auto Layout Vertical.png" alt="Happy Students" />
+            <img src="/AutoLayoutVertical.png" alt="Happy Students" />
           </div>
         </div>
       </section>
