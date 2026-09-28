@@ -10,7 +10,7 @@ export default function App() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
-      <Navbar setCurrentPage={setCurrentPage} />
+      {/* <Navbar setCurrentPage={setCurrentPage} /> */}
       <main className="flex-1">
         {currentPage === 'home' && <Home setCurrentPage={setCurrentPage} />}
         {currentPage === 'login' && <Login setCurrentPage={setCurrentPage} />}

@@ -1,83 +1,542 @@
-import { useMemo, useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
-const courses = [
-  { title: 'Learn Figma from Basics', category: 'UI/UX Design', image: 'photo-1586717791821-3f44a563fa4c', lessons: 17, time: '2 hours 16 mins', rating: '4.5' },
-  { title: 'Build Digital Assets', category: 'Creative Marketing', image: 'photo-1558655146-d09347e92766', lessons: 17, time: '2 hours 16 mins', rating: '4.8' },
-  { title: 'The Power of Big Data', category: 'Data Science', image: 'photo-1551288049-bebda4e38f71', lessons: 24, time: '3 hours 20 mins', rating: '4.9' },
-  { title: 'Balancing Productivity and Focus', category: 'Productivity', image: 'photo-1498050108023-c5249f4df085', lessons: 12, time: '1 hour 40 mins', rating: '4.7' },
-  { title: 'Mastering Money Management', category: 'Business', image: 'photo-146、0925895917-afdab827c52f'.replace('、', '-'), lessons: 20, time: '2 hours 45 mins', rating: '4.8' },
-  { title: 'From Idea to Startup Success', category: 'Freelance & Entrepreneurship', image: 'photo-1556761175-b413da4baf72', lessons: 18, time: '2 hours 10 mins', rating: '4.9' },
+// Sample Course Data
+const coursesData = [
+  {
+    id: 1,
+    title: 'Learn Figma from Basic',
+    category: 'UI/UX Design',
+    author: 'purepearl studio',
+    level: 'Beginner',
+    rating: '4.5',
+    price: '$25',
+    lessons: '17 Lessons',
+    time: '2 hours 16 mins',
+    comments: '59 Comments',
+    image: 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    id: 2,
+    title: 'Build Digital Asset',
+    category: 'Creative Marketing',
+    author: 'purepearl studio',
+    level: 'Beginner',
+    rating: '4.5',
+    price: '$25',
+    lessons: '17 Lessons',
+    time: '2 hours 16 mins',
+    comments: '59 Comments',
+    image: 'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    id: 3,
+    title: 'the Power of Big Data',
+    category: 'Data Science',
+    author: 'purepearl studio',
+    level: 'Beginner',
+    rating: '4.5',
+    price: '$25',
+    lessons: '17 Lessons',
+    time: '2 hours 16 mins',
+    comments: '59 Comments',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    id: 4,
+    title: 'Balancing Productivity an...',
+    category: 'Productivity',
+    author: 'purepearl studio',
+    level: 'Beginner',
+    rating: '4.5',
+    price: '$25',
+    lessons: '17 Lessons',
+    time: '2 hours 16 mins',
+    comments: '59 Comments',
+    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    id: 5,
+    title: 'Mastering Money Manage...',
+    category: 'Business',
+    author: 'purepearl studio',
+    level: 'Beginner',
+    rating: '4.5',
+    price: '$25',
+    lessons: '17 Lessons',
+    time: '2 hours 16 mins',
+    comments: '59 Comments',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    id: 6,
+    title: 'From Idea to Startup Succ...',
+    category: 'Freelance & Entrepreneurship',
+    author: 'purepearl studio',
+    level: 'Beginner',
+    rating: '4.5',
+    price: '$25',
+    lessons: '17 Lessons',
+    time: '2 hours 16 mins',
+    comments: '59 Comments',
+    image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=80',
+  },
 ];
 
-const categories = ['Featured', 'Music', 'Drawing & Painting', 'Marketing', 'Animation', 'Social Media', 'UI/UX Design', 'Creative Marketing', 'Digital Illustration', 'Film & Video', 'Crafts', 'Freelance & Entrepreneurship', 'Graphic Design', 'Photography', 'Productivity', 'Web Development', 'Data Science', 'Cooking'];
-const people = [
-  { name: 'Sarah M.', role: 'Enthusiastic Learner', image: 'photo-1534528741775-53994a69daeb', quote: 'ByteSpace has transformed my approach to learning. The diverse range of courses and the quality of content provided by creators have exceeded my expectations. The platform truly fosters a sense of community and lifelong learning.' },
-  { name: 'James L.', role: 'Lifelong Learner', image: 'photo-1500648767791-00dcc994a43e', quote: 'I’ve tried several online learning platforms, and ByteSpace stands out for its vibrant community and the variety of courses available. The easy navigation and engaging content make it a go-to platform for continuous skill development.' },
-  { name: 'Alex B.', role: 'Inspired Creator', image: 'photo-1506794778202-cad84cf45f1d', quote: 'As a creator, ByteSpace has been a game-changer for me. The course editor is user-friendly, and the support from the community is incredible. It’s fulfilling to see my courses making a positive impact on learners globally.' },
+const categoryPills = [
+  'Featured', 'Music', 'Drawing & Painting', 'Marketing', 'Animation',
+  'Social Media', 'UI/UX Design', 'Creative Marketing', 'Digital Illustration',
+  'Film & Video', 'Crafts', 'Freelance & Entrepreneurship', 'Graphic Design',
+  'Photography', 'Productivity', 'Web Development', 'Data Science', 'Cooking', '+ More'
 ];
 
-const photo = (id, width = 800) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
+const learningPaths = [
+  { name: 'Design', icon: '✎' },
+  { name: 'Development', icon: '⌘' },
+  { name: 'IT & Software', icon: '💻' },
+  { name: 'Business', icon: '🏢' },
+  { name: 'Marketing', icon: '📡' },
+  { name: 'Photography', icon: '📷' },
+];
 
-function Brand({ mark = false }) {
-  return <span className="inline-flex items-center gap-2.5 font-extrabold tracking-tight"><span className="brand-mark" aria-hidden="true">{mark ? 'b' : 'B'}</span><span>ByteSpace</span></span>;
-}
+const testimonials = [
+  {
+    name: 'Sarah M.',
+    role: 'Enthusiastic Learner',
+    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    quote: '"ByteSpace has transformed my approach to learning. The diverse range of courses and the quality of content provided by creators have exceeded my expectations. The platform truly fosters a sense of community and lifelong learning."'
+  },
+  {
+    name: 'James L.',
+    role: 'Lifelong Learner',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+    quote: '"I\'ve tried several online learning platforms, and ByteSpace stands out for its vibrant community and the variety of courses available. The easy navigation and engaging content make it a go-to platform for continuous skill development."'
+  },
+  {
+    name: 'Alex B.',
+    role: 'Inspired Creator',
+    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80',
+    quote: '"As a creator, ByteSpace has been a game-changer for me. The Course Editor is user-friendly, and the support from the community is incredible. It\'s fulfilling to see my courses making a positive impact on learners globally."'
+  }
+];
 
 export default function Home({ setCurrentPage }) {
-  const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('Featured');
-  const filteredCourses = useMemo(() => courses.filter((course) => {
-    const matchesCategory = activeCategory === 'Featured' || course.category === activeCategory;
-    const matchesQuery = `${course.title} ${course.category}`.toLowerCase().includes(query.toLowerCase());
-    return matchesCategory && matchesQuery;
-  }), [activeCategory, query]);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredCourses = useMemo(() => {
+    return coursesData.filter((course) => {
+      const matchCat = activeCategory === 'Featured' || course.category === activeCategory;
+      const matchQuery = course.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                         course.category.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchCat && matchQuery;
+    });
+  }, [activeCategory, searchQuery]);
 
   return (
-    <>
-      <section className="hero-grid relative isolate overflow-hidden text-white">
-        <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-5 py-6 sm:px-8 lg:px-12">
-          <a href="#home" aria-label="ByteSpace home" className="text-2xl sm:text-3xl"><Brand /></a>
-          <nav className="hidden items-center gap-9 text-base md:flex"><a className="hover:text-lime-300" href="#home">Home</a><a className="hover:text-lime-300" href="#courses">Courses</a><a className="hover:text-lime-300" href="#creators">Creators</a></nav>
-          <div className="flex items-center gap-3 sm:gap-6"><button onClick={() => setCurrentPage('login')} className="text-sm hover:text-lime-300 sm:text-base">Sign In</button><button onClick={() => setCurrentPage('register')} className="rounded-full bg-lime-300 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-lime-200 sm:px-5">Join Us</button><a href="#courses" aria-label="Browse courses" className="hidden text-xl sm:block">▢</a></div>
-        </header>
-        <div id="home" className="relative z-10 mx-auto max-w-6xl px-5 pb-0 pt-14 text-center sm:px-8 sm:pt-20 lg:pt-24">
-          <p className="mb-5 text-xs font-bold uppercase tracking-[.28em] text-lime-300">Learn something extraordinary</p>
-          <h1 className="mx-auto max-w-5xl text-4xl font-extrabold leading-[1.06] tracking-tight sm:text-6xl lg:text-7xl">Get Access to Hundreds<br className="hidden sm:block" /> Courses Available</h1>
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-blue-100 sm:text-lg">Unlock your creativity, gain valuable knowledge, and grow your business with our wide range of courses.</p>
-          <form onSubmit={(event) => { event.preventDefault(); document.querySelector('#courses')?.scrollIntoView({ behavior: 'smooth' }); }} className="mx-auto mt-9 flex max-w-2xl flex-col gap-3 sm:flex-row sm:rounded-full sm:bg-white sm:p-1.5">
-            <label className="flex min-w-0 flex-1 items-center gap-3 rounded-full bg-white px-5 py-3.5 text-slate-500 sm:py-2"><span className="text-xl">⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} aria-label="Search courses" placeholder="Course, topic, creator" className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400 sm:text-base" /></label>
-            <button className="rounded-full bg-lime-300 px-8 py-3.5 font-semibold text-slate-950 transition hover:bg-lime-200 sm:py-2.5">Search</button>
+    <div className="w-full bg-white text-gray-900 font-sans selection:bg-[#d2f800] selection:text-black">
+      
+      {/* ========================================================= */}
+      {/* SECTION 1: HERO & NAVBAR (Blue Grid)                      */}
+      {/* ========================================================= */}
+      <section className="relative overflow-hidden bg-[#0047FF] text-white">
+        {/* Grid Background Overlay */}
+        <div 
+          className="absolute inset-0 opacity-15 pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 0.4) 1px, transparent 1px), 
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 1px, transparent 1px)`,
+            backgroundSize: '48px 48px'
+          }}
+        />
+
+        {/* Top Navigation */}
+        <nav className="relative z-20 max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentPage('home')}>
+            <div className="w-7 h-7 bg-[#d2f800] rounded-sm flex items-center justify-center font-black text-black text-xs">
+              b
+            </div>
+            <span className="text-xl font-extrabold tracking-tight">ByteSpace</span>
+          </div>
+
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+            <button onClick={() => setCurrentPage('home')} className="hover:text-[#d2f800] transition-colors">Home</button>
+            <a href="#courses" className="hover:text-[#d2f800] transition-colors">Courses</a>
+            <a href="#creators" className="hover:text-[#d2f800] transition-colors">Creators</a>
+          </div>
+
+          <div className="flex items-center gap-4 text-sm font-semibold">
+            <button onClick={() => setCurrentPage('login')} className="hover:text-[#d2f800] transition-colors">
+              Sign In
+            </button>
+            <button 
+              onClick={() => setCurrentPage('register')}
+              className="bg-[#d2f800] hover:bg-[#c2e800] text-black px-5 py-2 rounded-full transition-all"
+            >
+              Join Us
+            </button>
+            <button className="p-1 hover:text-[#d2f800]">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+            </button>
+          </div>
+        </nav>
+
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-4xl mx-auto text-center px-6 pt-10 pb-8">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight">
+            Get Access to Hundreds<br />Courses Available
+          </h1>
+          <p className="mt-6 text-blue-100 text-sm sm:text-base max-w-xl mx-auto font-normal">
+            Unlock your creativity, gain valuable knowledge, and grow your business with our wide range of courses.
+          </p>
+
+          {/* Search Box */}
+          <form onSubmit={(e) => e.preventDefault()} className="mt-8 max-w-xl mx-auto flex items-center bg-white rounded-full p-1.5 shadow-2xl">
+            <div className="flex items-center w-full px-4 text-gray-400">
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Course, topic, creator"
+                className="w-full bg-transparent text-gray-900 placeholder-gray-400 text-sm focus:outline-none"
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-[#d2f800] hover:bg-[#c2e800] text-black font-semibold px-8 py-2.5 rounded-full text-sm transition-all shrink-0"
+            >
+              Search
+            </button>
           </form>
         </div>
-        <div className="hero-art relative mx-auto mt-4 h-[390px] max-w-7xl sm:h-[500px] lg:h-[570px]">
-          <div className="hero-orb absolute bottom-[-59%] left-1/2 h-[105%] w-[112%] -translate-x-1/2 rounded-[50%] bg-lime-300 sm:bottom-[-75%] sm:h-[125%]" />
-          <div className="absolute bottom-0 left-1/2 z-[1] h-[95%] w-[min(78%,440px)] -translate-x-1/2 overflow-hidden rounded-t-[48%] bg-gradient-to-b from-blue-300 to-blue-800 sm:w-[min(45%,470px)]">
-            <img className="h-full w-full object-cover object-center mix-blend-luminosity opacity-85" src={photo('photo-1531482615713-2afd69097998', 900)} alt="Learners collaborating around a laptop" />
+
+        {/* Hero Interactive Visuals */}
+        <div className="relative max-w-5xl mx-auto h-[380px] sm:h-[460px] mt-4">
+          {/* Big Lime Backdrop Arch */}
+          <div className="absolute bottom-[-50%] left-1/2 -translate-x-1/2 w-[550px] sm:w-[700px] h-[550px] sm:h-[700px] bg-[#d2f800] rounded-full" />
+
+          {/* Student Center Image */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-10 w-[270px] sm:w-[360px] h-[330px] sm:h-[420px] rounded-t-full overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80" 
+              alt="Learner" 
+              className="w-full h-full object-cover object-top"
+            />
           </div>
-          <div className="float-card absolute bottom-[56%] left-[5%] z-10 hidden rounded-2xl bg-white px-5 py-4 text-left text-slate-900 shadow-xl sm:block"><p className="font-semibold">UI/UX Design</p><p className="text-sm text-slate-500">200 Courses · 1000+ Students</p></div>
-          <div className="float-card absolute bottom-[38%] right-[4%] z-10 w-52 rounded-2xl bg-white p-5 text-left text-slate-900 shadow-xl sm:w-60"><p className="text-sm">Learning Progress</p><p className="mt-1 text-5xl font-bold">55%</p><div className="mt-3 h-2 rounded-full bg-slate-100"><div className="h-full w-[55%] rounded-full bg-lime-300" /></div></div>
-          <div className="float-card absolute bottom-[8%] left-[7%] z-10 rounded-2xl bg-white px-5 py-4 text-left text-slate-900 shadow-xl"><p className="font-semibold">Happy Students</p><p className="text-sm text-slate-500">4.5 (240) <span className="text-lime-400">★</span></p><div className="mt-2 flex -space-x-2">{people.map((person) => <img key={person.name} src={photo(person.image, 80)} alt="" className="h-8 w-8 rounded-full border-2 border-white object-cover" />)}<span className="grid h-8 w-8 place-items-center rounded-full bg-lime-300 text-[10px] font-bold">2K+</span></div></div>
-          <span className="absolute left-[3%] top-[28%] -rotate-12 text-7xl text-white/80">〰</span><span className="absolute right-[5%] top-[21%] rotate-12 text-7xl text-lime-300">◢</span>
+
+          {/* Floating UI/UX Card Left */}
+          <div className="hidden sm:block absolute left-12 top-16 z-20 bg-white text-gray-900 rounded-2xl px-5 py-3.5 shadow-xl">
+            <p className="font-bold text-sm">UI/UX Design</p>
+            <p className="text-xs text-gray-500">200 Courses • 1000+ Students</p>
+          </div>
+
+          {/* Floating Progress Card Right */}
+          <div className="absolute right-8 top-16 z-20 bg-white text-gray-900 rounded-2xl p-4 shadow-xl w-48 sm:w-56">
+            <p className="text-xs text-gray-500 font-medium">Learning Progress</p>
+            <p className="text-4xl font-extrabold text-gray-900 my-1">55%</p>
+            <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div className="h-full bg-[#d2f800] w-[55%] rounded-full" />
+            </div>
+          </div>
+
+          {/* Floating Happy Students Bottom Left */}
+          <div className="absolute left-6 sm:left-16 bottom-6 z-20 bg-white text-gray-900 rounded-2xl p-3.5 shadow-xl">
+            <p className="font-bold text-xs">Happy Students</p>
+            <p className="text-[11px] text-gray-500 flex items-center gap-1 mt-0.5">
+              <span>4.5 (240)</span>
+              <span className="text-yellow-400">★</span>
+            </p>
+            <div className="flex -space-x-2 mt-2 items-center">
+              {testimonials.map((t, idx) => (
+                <img key={idx} src={t.image} alt="" className="w-6 h-6 rounded-full border-2 border-white object-cover" />
+              ))}
+              <span className="w-6 h-6 rounded-full bg-[#d2f800] text-black font-bold text-[9px] flex items-center justify-center border border-white">
+                2K+
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section aria-label="Trusted by teams" className="bg-slate-50 px-5 py-8 sm:py-10"><div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-12 gap-y-5 text-slate-400 sm:justify-between"><span className="text-lg font-bold">◉ Logoipsum</span><span className="text-lg font-bold">✺ Logoipsum</span><span className="text-lg font-bold">◉ Logoipsum</span><span className="text-lg font-bold">✿ Logoipsum</span><span className="text-lg font-bold">◎ Logoipsum</span></div></section>
-
-      <section id="courses" className="bg-[#07090f] px-5 py-16 text-white sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center"><p className="text-sm font-semibold uppercase tracking-[.2em] text-lime-300">Find your next skill</p><h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-5xl">Discover Your Passion,<br />Build Your Skills</h2><p className="mt-4 text-sm leading-6 text-slate-400 sm:text-base">At Bytespace Courses, we bring you closer to life-changing knowledge. Explore a variety of courses across different fields, from technology to the arts, and make a difference in your career and life.</p></div>
-          <div className="mt-8 flex flex-wrap justify-center gap-2">{categories.map((category) => <button key={category} onClick={() => setActiveCategory(category)} className={`rounded-full px-4 py-2 text-xs transition sm:text-sm ${activeCategory === category ? 'bg-lime-300 font-semibold text-slate-950' : 'bg-white text-slate-700 hover:bg-lime-100'}`}>{category}</button>)}</div>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{filteredCourses.map((course) => <article key={course.title} className="overflow-hidden rounded-2xl bg-white p-3 text-slate-900 shadow-lg transition hover:-translate-y-1"><div className="relative h-48 overflow-hidden rounded-xl bg-slate-200"><img src={photo(course.image, 700)} alt={course.title} className="h-full w-full object-cover" /><div className="absolute inset-x-3 bottom-3 flex justify-between gap-2"><span className="rounded-full bg-white/90 px-2.5 py-1 text-[10px]">{course.lessons} Lessons</span><span className="rounded-full bg-white/90 px-2.5 py-1 text-[10px]">{course.time}</span><span className="rounded-full bg-white/90 px-2.5 py-1 text-[10px]">59 Comments</span></div></div><div className="px-1 pb-1 pt-3"><div className="flex items-start justify-between gap-2"><h3 className="truncate font-bold">{course.title}</h3><span className="shrink-0 text-sm text-slate-500">{course.rating} <span className="text-slate-300">★</span></span></div><p className="mt-1 text-xs text-slate-500">by <span className="text-blue-600">purepearl studio</span></p><div className="mt-3 flex items-center justify-between"><span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">▥ Beginner</span><div className="flex -space-x-2">{people.map((person) => <img key={person.name} src={photo(person.image, 60)} alt="" className="h-7 w-7 rounded-full border-2 border-white object-cover" />)}<span className="grid h-7 w-7 place-items-center rounded-full bg-lime-300 text-[9px] font-bold">26+</span></div></div><p className="mt-3 font-bold text-blue-600">$25<span className="font-normal text-slate-400">/lifetime</span></p></div></article>)}{filteredCourses.length === 0 && <p className="col-span-full py-12 text-center text-slate-400">No courses match that search. Try another topic.</p>}</div>
-          <div className="mt-20 text-center"><h2 className="text-2xl font-bold sm:text-3xl">Explore Diverse Learning Paths at Bytespace</h2><p className="mx-auto mt-3 max-w-3xl text-sm leading-6 text-slate-400">Empowering individuals through knowledge with a diverse range of courses for every ambition.</p><div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">{['Design', 'Development', 'IT & Software', 'Business', 'Marketing', 'Photography'].map((item, index) => <a key={item} href="#courses" className="rounded-2xl border border-slate-600 px-4 py-6 transition hover:border-lime-300"><span className="mx-auto grid h-11 w-11 place-items-center rounded-full bg-lime-300 text-xl text-slate-900">{['✎', '⌘', '▣', '▦', '◉', '▧'][index]}</span><span className="mt-3 block text-sm">{item}</span></a>)}</div></div>
+      {/* ========================================================= */}
+      {/* SECTION 2: LOGO BANNER                                   */}
+      {/* ========================================================= */}
+      <section className="bg-[#F8F9FB] border-y border-gray-100 py-7 px-6">
+        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-center sm:justify-between gap-8 text-gray-400 font-bold text-lg opacity-80">
+          <span className="flex items-center gap-2"><span className="text-xl">🌊</span> Logoipsum</span>
+          <span className="flex items-center gap-2"><span className="text-xl">⚙️</span> Logoipsum</span>
+          <span className="flex items-center gap-2"><span className="text-xl">⚡</span> Logoipsum</span>
+          <span className="flex items-center gap-2"><span className="text-xl">❖</span> Logoipsum</span>
+          <span className="flex items-center gap-2"><span className="text-xl">🌐</span> Logoipsum</span>
         </div>
       </section>
 
-      <section className="soft-glow px-5 py-16 sm:px-8 sm:py-24"><div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2"><div><p className="text-sm font-semibold uppercase tracking-[.18em] text-blue-600">For curious minds</p><h2 className="mt-3 max-w-xl text-3xl font-bold leading-tight text-slate-900 sm:text-5xl">Your Path to Professional Growth Starts Here!</h2><p className="mt-5 max-w-xl leading-7 text-slate-600">Explore our curated selection of courses tailored to enhance your capabilities and accelerate your career journey. Whether you are looking to sharpen specific skills, gain industry expertise, or embark on a new career path entirely, we have the resources you need.</p><div className="mt-8 flex gap-9">{[['12K', 'Students'], ['70+', 'Courses'], ['16', 'Creators']].map(([number, label]) => <div key={label}><p className="text-3xl font-bold text-blue-600">{number}</p><p className="mt-1 text-sm text-slate-500">{label}</p></div>)}</div></div><div className="relative mx-auto w-full max-w-lg"><div className="rounded-[2rem] bg-white p-3 shadow-xl"><img src={photo('photo-1521737711867-e3b97375f902', 900)} alt="Students learning together" className="h-80 w-full rounded-[1.5rem] object-cover sm:h-[420px]" /></div><div className="absolute -bottom-6 -left-4 rounded-2xl bg-blue-700 p-5 text-white shadow-xl sm:-left-12"><p className="text-sm">Learning Progress</p><p className="mt-1 text-4xl font-bold">55%</p><div className="mt-3 h-2 w-36 rounded-full bg-white/30"><div className="h-full w-1/2 rounded-full bg-lime-300" /></div></div></div></div>
-        <div id="creators" className="mx-auto mt-28 grid max-w-6xl items-center gap-12 lg:grid-cols-2"><div className="relative mx-auto w-full max-w-lg"><img src={photo('photo-1551836022-d5d88e9218df', 900)} alt="Creator planning a course" className="h-80 w-full rounded-[2rem] object-cover shadow-xl sm:h-[420px]" /><div className="absolute -bottom-5 right-0 rounded-2xl bg-white p-5 shadow-xl"><p className="font-semibold">Happy Students</p><p className="text-sm text-slate-500">4.5 (240) <span className="text-lime-400">★</span></p><p className="mt-2 text-sm">👩🏻‍🎓 👨🏽‍🎓 👩🏼‍💻 👨🏻‍🎨 <span className="rounded-full bg-lime-300 px-2 py-1 text-xs font-bold">2K+</span></p></div></div><div><p className="text-sm font-semibold uppercase tracking-[.18em] text-blue-600">Create and share</p><h2 className="mt-3 max-w-xl text-3xl font-bold leading-tight text-slate-900 sm:text-5xl">Create &amp; Manage Courses Easily.</h2><p className="mt-5 leading-7 text-slate-600"><strong className="text-slate-900">ByteSpace</strong> supports individuals or entities in the creation, publication, and administration of educational courses.</p><ul className="mt-7 space-y-3">{['Share Your Expertise', 'Monetize Your Passion', 'Flexibility and Autonomy', 'Build a Community'].map((item) => <li key={item} className="flex items-center gap-3 text-slate-700"><span className="grid h-5 w-5 place-items-center rounded-full bg-blue-600 text-xs text-white">✓</span>{item}</li>)}</ul><button onClick={() => setCurrentPage('register')} className="mt-8 rounded-full bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700">Become a creator</button></div></div>
+      {/* ========================================================= */}
+      {/* SECTION 3: COURSES DISCOVERY                             */}
+      {/* ========================================================= */}
+      <section id="courses" className="py-20 px-6 max-w-7xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+            Discover Your Passion,<br />Build Your Skills
+          </h2>
+          <p className="text-gray-500 text-sm mt-4 leading-relaxed">
+            At Bytespace Courses, we bring you closer to life-changing knowledge. Explore a variety of courses across different fields, from technology to the arts, and make a difference in your career and life.
+          </p>
+        </div>
+
+        {/* Category Pills */}
+        <div className="flex flex-wrap justify-center gap-2 mt-8 max-w-5xl mx-auto">
+          {categoryPills.map((pill) => (
+            <button
+              key={pill}
+              onClick={() => setActiveCategory(pill)}
+              className={`px-4 py-2 rounded-full text-xs font-medium transition-all ${
+                activeCategory === pill
+                  ? 'bg-[#d2f800] text-black font-bold shadow-sm'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              {pill}
+            </button>
+          ))}
+        </div>
+
+        {/* Course Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+          {filteredCourses.map((course) => (
+            <div 
+              key={course.id} 
+              className="bg-white border border-gray-100 rounded-3xl p-3 shadow-md hover:shadow-xl transition-all duration-300"
+            >
+              <div className="relative h-44 rounded-2xl overflow-hidden bg-gray-100">
+                <img src={course.image} alt={course.title} className="w-full h-full object-cover" />
+                <div className="absolute bottom-2.5 left-2.5 right-2.5 flex justify-between gap-1 text-[10px] font-medium text-gray-700">
+                  <span className="bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full">{course.lessons}</span>
+                  <span className="bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full">{course.time}</span>
+                  <span className="bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full">{course.comments}</span>
+                </div>
+              </div>
+
+              <div className="p-3">
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="font-bold text-gray-900 text-base">{course.title}</h3>
+                  <span className="text-xs font-semibold text-gray-500 shrink-0">
+                    {course.rating} <span className="text-yellow-400">★</span>
+                  </span>
+                </div>
+                <p className="text-xs text-gray-400 mt-1">by <span className="text-blue-600">{course.author}</span></p>
+
+                <div className="flex items-center justify-between mt-4">
+                  <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium">
+                    📊 {course.level}
+                  </span>
+                  <div className="flex -space-x-1.5 items-center">
+                    {testimonials.map((t, idx) => (
+                      <img key={idx} src={t.image} alt="" className="w-6 h-6 rounded-full border-2 border-white object-cover" />
+                    ))}
+                    <span className="w-6 h-6 rounded-full bg-[#d2f800] text-black font-bold text-[9px] flex items-center justify-center border border-white">
+                      26+
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-gray-100 flex justify-between items-center">
+                  <p className="text-blue-600 font-extrabold text-lg">
+                    {course.price}<span className="text-xs font-normal text-gray-400">/lifetime</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
-      <section className="soft-glow border-t border-slate-100 px-5 py-16 sm:px-8 sm:py-24"><div className="mx-auto max-w-6xl"><div className="grid gap-6 lg:grid-cols-2 lg:items-end"><h2 className="max-w-xl text-3xl font-bold leading-tight text-slate-950 sm:text-5xl">Discover What Our Community Is Saying</h2><p className="leading-7 text-slate-600">At ByteSpace, our vibrant community of learners and creators is at the heart of what we do. Hear from those who have experienced the transformative journey of learning and creating on our platform.</p></div><div className="mt-10 grid gap-5 lg:grid-cols-3">{people.map((person) => <article key={person.name} className="rounded-3xl bg-white p-7 shadow-sm sm:p-9"><img src={photo(person.image, 120)} alt={person.name} className="h-20 w-20 rounded-full object-cover" /><h3 className="mt-6 text-xl font-bold text-slate-950">{person.name}</h3><p className="mt-1 text-blue-600">{person.role}</p><p className="mt-5 leading-7 text-slate-600">“{person.quote}”</p></article>)}</div></div></section>
+      {/* ========================================================= */}
+      {/* SECTION 4: DIVERSE LEARNING PATHS                        */}
+      {/* ========================================================= */}
+      <section className="py-16 px-6 bg-white border-t border-gray-100">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">
+            Explore Diverse Learning Paths at Bytespace
+          </h2>
+          <p className="text-gray-500 text-sm mt-3 max-w-2xl mx-auto leading-relaxed">
+            At Bytespace, we believe in empowering individuals through knowledge. Our diverse range of courses spans various fields, ensuring there's something for everyone. Unleash your potential and explore our carefully curated categories.
+          </p>
 
-      <footer className="bg-[#07090f] px-5 py-10 text-slate-400 sm:px-8"><div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 sm:flex-row"><a href="#home" className="text-xl text-white"><Brand /></a><p className="text-sm">© {new Date().getFullYear()} ByteSpace. Learn, create, and grow.</p><div className="flex gap-5 text-sm"><a href="#courses" className="hover:text-lime-300">Courses</a><a href="#creators" className="hover:text-lime-300">Creators</a><button onClick={() => setCurrentPage('login')} className="hover:text-lime-300">Sign in</button></div></div></footer>
-    </>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-10">
+            {learningPaths.map((item) => (
+              <div 
+                key={item.name} 
+                className="bg-white border border-gray-200 hover:border-[#d2f800] rounded-2xl p-6 transition-all shadow-sm hover:shadow-md cursor-pointer group"
+              >
+                <div className="w-12 h-12 rounded-full bg-[#d2f800] text-black font-bold text-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                  {item.icon}
+                </div>
+                <span className="text-xs font-semibold text-gray-800">{item.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* SECTION 5: FEATURES & CREATOR MANAGEMENT                 */}
+      {/* ========================================================= */}
+      <section className="py-20 px-6 bg-gradient-to-b from-yellow-50/40 via-white to-blue-50/40">
+        <div className="max-w-6xl mx-auto space-y-24">
+          
+          {/* Feature 1: Professional Growth */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight">
+                Your Path to Professional<br />Growth Starts Here!
+              </h2>
+              <p className="text-gray-600 text-sm mt-4 leading-relaxed">
+                Explore our curated selection of courses tailored to enhance your capabilities and accelerate your career journey. Whether you are looking to sharpen specific skills, gain industry expertise, or embark on a new career path entirely, we have the resources you need.
+              </p>
+
+              <div className="grid grid-cols-3 gap-6 mt-8">
+                <div>
+                  <p className="text-3xl font-extrabold text-blue-600">12K</p>
+                  <p className="text-xs text-gray-500 mt-1">Students</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-extrabold text-blue-600">70+</p>
+                  <p className="text-xs text-gray-500 mt-1">Courses</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-extrabold text-blue-600">16</p>
+                  <p className="text-xs text-gray-500 mt-1">Creators</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative max-w-md mx-auto lg:max-w-none w-full">
+              <div className="rounded-3xl overflow-hidden shadow-2xl bg-white p-2">
+                <img 
+                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" 
+                  alt="Student with laptop" 
+                  className="w-full h-80 object-cover rounded-2xl"
+                />
+              </div>
+              <div className="absolute -bottom-5 right-4 bg-white p-4 rounded-2xl shadow-xl w-48 border border-gray-100">
+                <p className="text-xs text-gray-500">Learning Progress</p>
+                <p className="text-3xl font-extrabold text-gray-900 mt-1">55%</p>
+                <div className="w-full h-1.5 bg-gray-100 rounded-full mt-2">
+                  <div className="h-full bg-[#d2f800] w-[55%] rounded-full" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 2: Create & Manage Courses */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="relative order-2 lg:order-1 max-w-md mx-auto lg:max-w-none w-full">
+              <div className="rounded-3xl overflow-hidden shadow-2xl bg-white p-2">
+                <img 
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" 
+                  alt="Female creator" 
+                  className="w-full h-80 object-cover rounded-2xl"
+                />
+              </div>
+
+              {/* Floating Revenue Card */}
+              <div className="absolute top-4 left-4 bg-blue-600 text-white p-3.5 rounded-2xl shadow-lg text-xs">
+                <p className="opacity-80">Total Revenue</p>
+                <p className="text-lg font-bold">$120.29</p>
+              </div>
+
+              <div className="absolute bottom-4 left-4 bg-blue-700 text-white p-3.5 rounded-2xl shadow-lg text-xs">
+                <p className="opacity-80">Year to Date</p>
+                <p className="text-lg font-bold">$1,200.38</p>
+              </div>
+            </div>
+
+            <div className="order-1 lg:order-2">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight">
+                Create & Manage<br />Courses Easily.
+              </h2>
+              <p className="text-gray-600 text-sm mt-4 leading-relaxed">
+                <strong>ByteSpace</strong> supports individuals or entities in the creation, publication, and administration of educational courses.
+              </p>
+
+              <ul className="mt-6 space-y-3 text-sm text-gray-700 font-medium">
+                {['Share Your Expertise', 'Monetize Your Passion', 'Flexibility and Autonomy', 'Build a Community'].map((item) => (
+                  <li key={item} className="flex items-center gap-3">
+                    <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">
+                      ✓
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* SECTION 6: CREATOR BANNER & TESTIMONIALS                 */}
+      {/* ========================================================= */}
+      
+      {/* Creator Blue Grid CTA Banner */}
+      <section id="creators" className="relative overflow-hidden bg-[#0047FF] text-white py-20 px-6 text-center">
+        <div 
+          className="absolute inset-0 opacity-15 pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 0.4) 1px, transparent 1px), 
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 1px, transparent 1px)`,
+            backgroundSize: '48px 48px'
+          }}
+        />
+
+        <div className="relative z-10 max-w-3xl mx-auto">
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+            Unlock Your Potential as a<br />Creator with ByteSpace
+          </h2>
+          <p className="text-blue-100 text-xs sm:text-sm mt-6 leading-relaxed">
+            Experience the collaboration of numerous creators and an expanding selection of courses. Register now and become a part of a community comprising over 10,000 local and international creators. Utilize our Course Editor, and showcase your expertise by publishing your finest course on the ByteSpace Course Library.
+          </p>
+
+          <button 
+            onClick={() => setCurrentPage('register')}
+            className="mt-8 bg-[#d2f800] hover:bg-[#c2e800] text-black font-bold px-8 py-3 rounded-full text-sm transition-all shadow-lg"
+          >
+            Join as Creator
+          </button>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 px-6 bg-gradient-to-b from-yellow-50/60 via-white to-blue-50/30">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-12">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight">
+              Discover What Our<br />Community Is Saying
+            </h2>
+            <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
+              At ByteSpace, our vibrant community of learners and creators is at the heart of what we do. Hear directly from those who have experienced the transformative journey of learning and creating on our platform. Explore testimonials that reflect the diverse perspectives of enthusiastic learners and accomplished creators.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {testimonials.map((t) => (
+              <div key={t.name} className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex flex-col">
+                <img src={t.image} alt={t.name} className="w-14 h-14 rounded-full object-cover" />
+                <h3 className="font-bold text-gray-900 mt-4">{t.name}</h3>
+                <p className="text-xs font-semibold text-blue-600 mt-0.5">{t.role}</p>
+                <p className="text-gray-600 text-xs mt-4 leading-relaxed flex-1">{t.quote}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+    </div>
   );
 }
