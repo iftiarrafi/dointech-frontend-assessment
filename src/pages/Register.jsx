@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { registerSuccess, setAuthError } from "../features/auth/authSlice";
@@ -11,6 +11,9 @@ export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { error } = useSelector((state) => state.auth);
+  useEffect(() => {
+      document.title = "ByteSpace New | Register";
+    }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

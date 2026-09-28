@@ -45,7 +45,7 @@ export default function Navbar() {
         </div>
         {!isAuthPage && (
           <span className="font-clash text-xl font-extrabold tracking-tight text-white">
-            ByteSpace
+            ByteSpace New
           </span>
         )}
       </button>

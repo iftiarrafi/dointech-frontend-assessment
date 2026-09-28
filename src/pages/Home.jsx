@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import Banner from "../components/Banner";
 import TestimonialSection from "../components/TestimonialSection";
 import CTABanner from "../components/CTABanner";
@@ -8,6 +8,9 @@ import DiverseLearningPathSection from "../components/DiverseLearningPathSection
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
+  useEffect(() => {
+        document.title = "ByteSpace New";
+      }, []);
 
   return (
     <div className="w-full bg-white text-gray-900 font-sans selection:bg-[#d2f800] selection:text-black">

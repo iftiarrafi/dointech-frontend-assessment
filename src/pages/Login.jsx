@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess, setAuthError } from "../features/auth/authSlice";
@@ -10,6 +10,9 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { error } = useSelector((state) => state.auth);
+  useEffect(() => {
+    document.title = "ByteSpace New | Login";
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
